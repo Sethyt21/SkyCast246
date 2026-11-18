@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--i added an about page because we need one lol-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Meet the student team behind SkyCast246, a Caribbean cloud-learning project.">
+    <title>About Us | SkyCast246</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="theme.js"></script>
+</head>
+<body>
+    <header>
+        <div class="wrap nav">
+            <div class="brand">☁️ <span>SkyCast246<small>Identify. Explore. Learn.</small></span></div>
+            <nav aria-label="Main navigation">
+                <a href="index.html#identify">Identify</a>
+                <a href="index.html#learn">Cloud Learning</a>
+                <a href="index.html#quiz">Quiz</a>
+                <a href="index.html">Home</a>
+                <a href="about.html" aria-current="page">About Us</a>
+                <a href="https://copilotstudio.microsoft.com/environments/Default-0d1b5d7f-f04f-4329-9401-57c347a50670/bots/cr9c8_SkyCast246Assistant/canvas?__version__=2&amp;enableFileAttachment=true&amp;tenantId=0d1b5d7f-f04f-4329-9401-57c347a50670" target="_blank" rel="noopener noreferrer" aria-label="AI Assistant (opens in a new tab)">AI Assistant ↗</a>
+                <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">🌙 Dark mode</button>
+            </nav>
+        </div>
+    </header>
+    <main class="wrap about-main">
+        <section class="hero">
+            <div class="eyebrow">MEET THE PEOPLE BEHIND SKYCAST246</div>
+            <h1>About Our Team</h1>
+            <p>SkyCast246 is a student-built educational website that helps learners identify cloud types and explore weather concepts, with a focus on Barbados and the Caribbean.</p>
+        </section>
+        <section class="panel about-project" aria-labelledby="project-heading">
+            <h2 id="project-heading">Our Project</h2>
+            <p>Our goal is to make cloud learning more interactive by combining image classification using Google Teachable Machine with cloud facts, a short quiz, and an AI assistant powered by Microsoft Copilot Studio.</p>
+            <p>SkyCast246 is an educational prototype. Its image predictions are estimates and should not be treated as weather forecasts.</p>
+        </section>
+        <section class="team-section" aria-labelledby="team-heading">
+            <h2 id="team-heading">Our Group Members</h2>
+            <p class="muted">Meet the four students working together on SkyCast246.</p>
+            <div class="team-grid">
+                <!-- Team members: edit these cards if roles or contributions change. because honestly i can't remember all right now -->
+                <article class="panel team-card">
+                    <img class="team-avatar" src="images/joyella.png" alt="" width="150" height="150">
+                    <h3>Joyella Williams</h3>
+                    <p class="team-role">Project Manager</p>
+                </article>
+                <article class="panel team-card">
+                    <img class="team-avatar" src="images/Seth.jpeg" alt="" width="150" height="150">
+                    <h3>Seth Jervier</h3>
+                    <p class="team-role">Programmer</p>
+                </article>
+                <article class="panel team-card">
+                    <img class="team-avatar" src="images/christopher.png" alt="" width="150" height="150">
+                    <h3>Christopher Clarke</h3>
+                    <p class="team-role">Documentalist</p>
+                </article>
+                <article class="panel team-card">
+                    <img class="team-avatar" src="images/kai.png" alt="" width="150" height="150">
+                    <h3>Kai Murrell</h3>
+                    <p class="team-role">Programmer</p>
+                </article>
+            </div>
+        </section>
+        <p class="about-return"><a class="button" href="index.html">← Return to SkyCast246</a></p>
+    </main>
+    <footer>SkyCast246 • An educational cloud identification prototype • Cloud descriptions are general information, not weather forecasts.</footer>
+<!-- Floating Microsoft Copilot Studio assistant -->
+    <aside class="assistant-widget" id="chatbot" aria-label="SkyCast246 AI assistant">
+        <section class="assistant-window" id="assistantWindow" hidden aria-label="Assistant chat">
+            <div class="assistant-header">
+                <div><strong>☁ SkyCast Cloud Assistant</strong><small>Powered by Microsoft Copilot Studio</small></div>
+                <button id="closeChat" type="button" aria-label="Close assistant">✕</button>
+            </div>
+            <div class="assistant-help" id="assistantHelp" role="status" hidden></div>
+            <!-- remember Seth or whoever come here the link below is the copilot you can replace it with your own if you want-->
+            <iframe src="https://copilotstudio.microsoft.com/environments/Default-0d1b5d7f-f04f-4329-9401-57c347a50670/bots/cr9c8_SkyCast246Assistant/webchat?__version__=2&amp;enableFileAttachment=true" title="SkyCast246 Cloud Assistant" loading="lazy" allow="microphone"></iframe>
+        </section>
+        <button id="chatToggle" class="chat-toggle" type="button" aria-controls="assistantWindow" aria-expanded="false">☁ Ask SkyCast</button>
+    </aside>
+
+    <!-- The About page uses lightweight chat controls without loading the GTM application script. -->
+    <script defer src="about-chat.js"></script>
+</body>
+</html>

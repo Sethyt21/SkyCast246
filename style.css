@@ -1,0 +1,944 @@
+/* this is the design for the page comments are eveywhere because I like putting comments and it helps everyone
+ * SkyCast246 | Accessible website styles
+ * Organized by feature for easy maintenance.
+ * Includes the animated sky, prediction display, quiz and assistant.
+ */
+
+/* ============================================================
+   01. Design tokens and global defaults
+   ============================================================ */
+
+:root {
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    color: #17365d;
+    background-color: #cdeaff;
+    --primary: #0874d9;
+    --primary-dark: #075cb1;
+    --secondary: #edf4fc;
+    --text: #17365d;
+    --muted: #607592;
+    --border: #dbe6f4;
+    --radius: 18px;
+    --font-body: 17px;
+    --font-small: 15px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(
+        180deg,
+        #58b2ed 0%,
+        #87cefa 38%,
+        #b0e0ff 72%,
+        #d9f2ff 100%
+    );
+    background-attachment: fixed;
+    font-size: var(--font-body);
+    line-height: 1.6;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+:focus-visible {
+    outline: 3px solid #ffbb3d;
+    outline-offset: 3px;
+}
+
+/* ============================================================
+   02. Animated sky this was more complicated than you think
+   ============================================================ */
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 10%;
+    left: -650px;
+    width: 600px;
+    height: 230px;
+    background: radial-gradient(
+            ellipse at 25% 65%,
+            white 0 24%,
+            transparent 25%
+        ),
+        radial-gradient(
+            ellipse at 43% 40%,
+            white 0 28%,
+            transparent 29%
+        ),
+        radial-gradient(
+            ellipse at 65% 52%,
+            white 0 30%,
+            transparent 31%
+        ),
+        radial-gradient(
+            ellipse at 78% 70%,
+            white 0 19%,
+            transparent 20%
+        );
+    border-radius: 0;
+    box-shadow: none;
+    filter: blur(5px);
+    animation: skyCloudFront 32s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.9;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    top: 57%;
+    left: -500px;
+    width: 450px;
+    height: 170px;
+    background: radial-gradient(
+            ellipse at 27% 65%,
+            white 0 25%,
+            transparent 26%
+        ),
+        radial-gradient(
+            ellipse at 48% 40%,
+            white 0 30%,
+            transparent 31%
+        ),
+        radial-gradient(
+            ellipse at 72% 62%,
+            white 0 26%,
+            transparent 27%
+        );
+    border-radius: 0;
+    box-shadow: none;
+    filter: blur(7px);
+    animation: skyCloudBack 45s linear infinite;
+    animation-delay: -22s;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.72;
+}
+
+/* ============================================================
+   03. Layout and panels basic stuff
+   ============================================================ */
+
+.wrap {
+    max-width: 1180px;
+    margin: auto;
+    padding: 0 22px;
+}
+
+header,
+main,
+footer {
+    position: relative;
+    z-index: 1;
+}
+
+.sky-layout {
+    padding-bottom: 48px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding-bottom: 45px;
+}
+
+.stack {
+    display: grid;
+    gap: 24px;
+    align-content: start;
+}
+
+.prediction-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+    align-items: stretch;
+}
+
+.learning-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.prediction-grid > .panel, .learning-grid > .panel {
+    min-width: 0;
+}
+
+.panel {
+    background: rgba(255,255,255,.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: 0 10px 28px rgba(12, 83, 151, 0.16);
+    transition: transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.panel:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 35px rgba(25, 80, 140, 0.17);
+}
+
+.panel h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(22px, 2vw, 26px);
+    margin: 0 0 12px;
+    line-height: 1.3;
+}
+
+/* ============================================================
+   04. Navigation and hero everyone needs navigation makes thing easier
+   ============================================================ */
+
+header {
+    background: linear-gradient(
+        115deg,
+        rgba(7, 92, 177, 0.95),
+        rgba(58, 152, 223, 0.93)
+    );
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 50, 100, 0.15);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 90px;
+    gap: 16px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.brand small {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+}
+
+.nav nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover {
+    color: #d4efff;
+}
+
+.hero {
+    padding: 55px 0 40px;
+}
+
+.eyebrow {
+    color: #075cb1;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+.hero h1 {
+    font-size: clamp(30px, 4vw, 48px);
+    margin: 10px 0;
+    color: #103765;
+}
+
+.hero p {
+    max-width: 760px;
+    line-height: 1.7;
+    color: #244e75;
+    font-size: 16px;
+}
+
+/* ============================================================
+   05. Text and step markers simple stuff
+   ============================================================ */
+
+.step {
+    display: grid;
+    place-items: center;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+.step.green {
+    background: #08a47b;
+}
+
+.step.purple {
+    background: #6b4de0;
+}
+
+.muted {
+    color: #4c6280;
+}
+
+.small {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* ============================================================
+   06. Upload and form controls this was longer than expected to get things right
+   ============================================================ */
+
+.drop {
+    min-height: 225px;
+    border: 2px dashed #8bbce9;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    padding: 15px;
+    background: rgba(235, 247, 255, 0.85);
+    color: #3c6291;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.drop:hover {
+    background: #e2f3ff;
+    border-color: var(--primary);
+}
+
+.drop input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+}
+
+.drop img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.field-label {
+    display: block;
+    font-weight: 700;
+    margin: 18px 0 8px;
+}
+
+#customQuestion {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    resize: vertical;
+}
+
+#askCustom {
+    margin-bottom: 8px;
+}
+
+details {
+    border-top: 1px solid #e1eaf4;
+    padding-top: 13px;
+    margin-top: 17px;
+}
+
+summary {
+    font-weight: 700;
+    cursor: pointer;
+}
+
+details label {
+    display: block;
+    margin: 15px 0 5px;
+    font-size: 13px;
+}
+
+input[type="url"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c5d7ea;
+    border-radius: 10px;
+    font: inherit;
+}
+
+details button {
+    margin-top: 10px;
+}
+
+/* ============================================================
+   07. Buttons and status W3schools helped with this give the site a check https://www.w3schools.com/html/default.asp
+   ============================================================ */
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+button,
+.button {
+    border: none;
+    background: var(--primary);
+    color: white;
+    padding: 12px 17px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.25s ease,
+        transform 0.25s ease;
+    min-height: 44px;
+}
+
+button:hover:not(:disabled),
+.button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.secondary {
+    background: var(--secondary);
+    color: #20517f;
+    border: 1px solid #cbdcf0;
+}
+
+.secondary:hover {
+    background: #dcecff !important;
+    color: #174a79;
+}
+
+.status {
+    background: rgba(234, 244, 255, 0.9);
+    border-radius: 9px;
+    padding: 12px;
+    font-size: 13px;
+    color: #26598b;
+}
+
+/* ============================================================
+   08. Prediction results and confidence more complicated stuff but simple when you look at it
+   ============================================================ */
+
+.result {
+    background: rgba(221, 249, 237, 0.9);
+    border-radius: 12px;
+    padding: clamp(20px, 3vw, 28px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.result small {
+    font-size: 14px;
+    color: #245f53;
+    font-weight: 700;
+    letter-spacing: .035em;
+}
+
+.result h3 {
+    margin: 6px 0;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.confidence {
+    text-align: right;
+}
+
+.confidence strong {
+    display: block;
+    font-size: clamp(28px, 3vw, 36px);
+    line-height: 1.2;
+}
+
+.rankings {
+    margin-top: 22px;
+}
+
+.ranking {
+    margin: 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #17365d;
+}
+
+.bar {
+    height: 14px;
+    background: #dce6f1;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.bar i {
+    display: block;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        #1782db,
+        #55b9ff
+    );
+    border-radius: 10px;
+    min-width: 0;
+}
+
+/* ============================================================
+   09. Learning tabs
+   ============================================================ */
+
+.tabs {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.tab {
+    background: #f1f3fc;
+    color: #394f7b;
+    padding: 10px 13px;
+    font-size: 16px;
+}
+
+.tab.active {
+    background: #6650d8;
+    color: white;
+}
+
+.tabPanel {
+    background: rgba(248, 249, 255, 0.9);
+    padding: 20px;
+    border-radius: 14px;
+    min-height: 225px;
+}
+
+.tabPanel h3 {
+    margin-top: 0;
+}
+
+.tabPanel p {
+    line-height: 1.6;
+}
+
+.factgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.factgrid > div {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+/* ============================================================
+   10. Quiz for Joyella sake and sanity 
+   ============================================================ */
+
+#quizQuestion {
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.quizOptions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.quizOptions button {
+    background: #eef5fc;
+    color: #24557e;
+    border: 1px solid #c8ddf3;
+    text-align: left;
+    font-size: 17px;
+    line-height: 1.4;
+    min-height: 60px;
+    padding: 16px 18px;
+    font-weight: 700;
+}
+
+.quizOptions button.correct {
+    background: #d7f7e5;
+    color: #17603b;
+}
+
+.quizOptions button.wrong {
+    background: #ffe0e0;
+    color: #9b2525;
+}
+
+#quizFeedback {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+#nextQuiz {
+    font-size: 16px;
+    min-height: 48px;
+    padding: 13px 20px;
+}
+
+/* ============================================================
+   11. Floating assistant our big thing still ned to get it worked out
+   ============================================================ */
+
+.assistant-widget {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    max-width: calc(100vw - 24px);
+}
+
+.chat-toggle {
+    border-radius: 999px;
+    padding: 15px 21px;
+    box-shadow: 0 8px 24px rgba(6, 56, 105, .3);
+}
+
+.assistant-window {
+    width: min(390px, calc(100vw - 24px));
+    height: min(560px, calc(100dvh - 110px));
+    min-height: 280px;
+    border-radius: 18px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 12px 45px rgba(9, 49, 90, .3);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #c6d9eb;
+}
+
+.assistant-header {
+    background: #126bb5;
+    color: white;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.assistant-header small {
+    display: block;
+    font-size: 13px;
+    margin-top: 4px;
+    opacity: .85;
+}
+
+.assistant-header button {
+    background: rgba(255,255,255,.18);
+    padding: 7px 11px;
+}
+
+.assistant-help {
+    padding: 10px 12px;
+    font-size: 14px;
+    background: #edf6ff;
+    color: #174a79;
+    line-height: 1.5;
+}
+
+.assistant-window iframe {
+    display: block;
+    border: 0;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+}
+
+.chat-container {
+    width: 100%;
+    height: 520px;
+    margin-top: 15px;
+    overflow: hidden;
+    border: 1px solid #dbe5f0;
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 5px 20px rgba(25, 80, 140, 0.08);
+}
+
+.chat-container iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ============================================================
+   12. Footer just a regular footer
+   ============================================================ */
+
+footer {
+    text-align: center;
+    background: #17375d;
+    color: #dcecff;
+    padding: 27px;
+    font-size: 12px;
+}
+
+/* ============================================================
+   13. Cloud animations my favourite thing on the site upadted it from the last on it looked faded and unclear
+   ============================================================ */
+
+@keyframes skyCloudFront {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(100vw + 750px));
+    }
+}
+
+@keyframes skyCloudBack {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(100vw + 600px));
+    }
+}
+
+/* ============================================================
+   14. Responsive design and reduced-motion accessibility all of this for phones, tablets and other PC sizes
+   ============================================================ */
+
+@media (max-width: 800px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .nav {
+        flex-direction: column;
+        padding: 16px;
+    }
+    .hero {
+        padding-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-container {
+        height: 450px;
+    }
+}
+
+@media (max-width: 420px) {
+    .factgrid,
+    .quizOptions {
+        grid-template-columns: 1fr;
+    }
+    .panel {
+        padding: 16px;
+    }
+    .nav nav {
+        gap: 12px;
+        font-size: 13px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before,
+    body::after {
+        animation: none;
+    }
+    html {
+        scroll-behavior: auto;
+    }
+    .panel,
+    button,
+    .button {
+        transition: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .prediction-grid, .learning-grid {
+        grid-template-columns: minmax(0,1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .assistant-widget {
+        bottom: 12px;
+        right: 12px;
+    }
+    .assistant-window {
+        height: min(520px, calc(100dvh - 90px));
+    }
+    .hero {
+        padding-bottom: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before,
+    body::after {
+        animation: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .result { gap: 12px; }
+    .ranking { font-size: 16px; }
+    .quizOptions { grid-template-columns: 1fr; }
+    .quizOptions button { min-height: 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before, body::after { animation: none; }
+}
+
+
+/* ============================================================
+   15. Shared theme controls and About Us page
+   The default light palette is defined above. Dark overrides
+   follow below, keeping existing layout and functionality.
+   ============================================================ */
+.theme-toggle {
+    background: rgba(255,255,255,.16);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.65);
+    white-space: nowrap;
+    font-size: 15px;
+    padding: 10px 14px;
+}
+.theme-toggle:hover:not(:disabled) { background: rgba(255,255,255,.27); }
+.nav nav { align-items: center; }
+.nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 5px; }
+.about-main { padding-bottom: 54px; }
+.about-project { margin-bottom: 30px; }
+.team-section > h2 { color: var(--text); font-size: 28px; }
+.team-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 22px; }
+.team-card { min-width: 0; }
+.team-card h3 { font-size: 22px; margin: 12px 0 4px; }
+.team-card p { line-height: 1.6; }
+.team-avatar {
+    display: block;
+    box-sizing: border-box;
+    width: clamp(96px, 20vw, 150px);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 4px solid #78c8f8;
+    border-radius: 50%;
+    background: #dcecff;
+}
+.team-role { color: #155a95; font-weight: 700; }
+.about-return { margin-top: 30px; }
+
+/* Dark theme applies to the main site and About Us page. */
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --primary: #348fe8;
+    --primary-dark: #2378ce;
+    --secondary: #233d59;
+    --text: #e9f3ff;
+    --muted: #c1d3e7;
+    --border: #385471;
+    color: var(--text);
+    background: #0b1c31;
+}
+:root[data-theme="dark"] body { color: var(--text); background: linear-gradient(180deg,#0a2342 0%,#123b62 48%,#1a4b73 100%); background-attachment: fixed; }
+:root[data-theme="dark"] body::before,
+:root[data-theme="dark"] body::after { opacity: .22; }
+:root[data-theme="dark"] header { background: linear-gradient(115deg,#07182e,#124878); }
+:root[data-theme="dark"] .hero h1,
+:root[data-theme="dark"] .hero p,
+:root[data-theme="dark"] .eyebrow,
+:root[data-theme="dark"] .team-section > h2 { color: var(--text); }
+:root[data-theme="dark"] .panel { background: rgba(15,35,58,.97); border-color: #3b5775; box-shadow: 0 10px 28px rgba(0,0,0,.25); }
+:root[data-theme="dark"] .muted,
+:root[data-theme="dark"] .small { color: #c1d3e7; }
+:root[data-theme="dark"] .drop { background: #193a5c; border-color: #6793bc; color: #e4f2ff; }
+:root[data-theme="dark"] .drop:hover { background: #22486d; }
+:root[data-theme="dark"] .status,
+:root[data-theme="dark"] .assistant-help { background: #203f61; color: #e4f2ff; }
+:root[data-theme="dark"] .result { background: #173f3e; }
+:root[data-theme="dark"] .result small { color: #c6eee1; }
+:root[data-theme="dark"] .ranking { color: #e8f3ff; }
+:root[data-theme="dark"] .bar { background: #36536f; }
+:root[data-theme="dark"] .tabPanel { background: #1a304d; }
+:root[data-theme="dark"] .factgrid > div { background: #263f5d; }
+:root[data-theme="dark"] .tab,
+:root[data-theme="dark"] .secondary,
+:root[data-theme="dark"] .quizOptions button { background: #284663; color: #f1f7ff; border-color: #6484a5; }
+:root[data-theme="dark"] .tab.active { background: #7661df; color: white; }
+:root[data-theme="dark"] .quizOptions button.correct { background: #174d38; color: #d5ffe8; border-color: #4ac68c; }
+:root[data-theme="dark"] .quizOptions button.wrong { background: #612d36; color: #ffe1e5; border-color: #e37e8e; }
+:root[data-theme="dark"] .secondary:hover { background: #365b80 !important; color: #fff; }
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] input[type="url"] { background: #112943; border-color: #6685a4; color: #fff; }
+:root[data-theme="dark"] textarea::placeholder { color: #c0d0df; }
+:root[data-theme="dark"] .assistant-window { background: #10243a; border-color: #55718f; }
+:root[data-theme="dark"] .assistant-header { background: #0b355b; }
+:root[data-theme="dark"] .team-avatar { background: #2b5379; border-color: #5687b0; }
+:root[data-theme="dark"] .team-role { color: #a9d5ff; }
+:root[data-theme="dark"] footer { background: #07182b; }
+/* The Copilot iframe is hosted by Microsoft and has its own theme. */
+@media (max-width: 800px) { .team-grid { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .nav nav { justify-content: center; gap: 10px; } .theme-toggle { width: 100%; } }
+/*over 900 lines of code for this site I put a lot of work in here*/

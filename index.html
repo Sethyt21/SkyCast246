@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<!--This is the main site code eveything is labelled so it is easier for anyone to understand-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyCast246 | Identify. Explore. Learn.</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+    <!-- Google Teachable Machine Library to connect it with te site replace it with your own if it is better -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js"></script>
+    <script defer src="theme.js"></script>
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header>
+        <div class="wrap nav">
+
+            <!-- Website Logo -->
+            <div class="brand">
+                ☁️
+                <span>
+                    SkyCast246
+                    <small>Identify. Explore. Learn.</small>
+                </span>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav>
+                <a href="#identify">Identify</a>
+                <a href="#learn">Cloud Learning</a>
+                <a href="#quiz">Quiz</a>
+                <a href="https://copilotstudio.microsoft.com/environments/Default-0d1b5d7f-f04f-4329-9401-57c347a50670/bots/cr9c8_SkyCast246Assistant/canvas?__version__=2&amp;enableFileAttachment=true&amp;tenantId=0d1b5d7f-f04f-4329-9401-57c347a50670" target="_blank" rel="noopener noreferrer" aria-label="AI Assistant (opens in a new tab)">AI Assistant ↗</a>
+                <a href="about.html">About Us</a>
+                <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">🌙 Dark mode</button>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="wrap">
+<section class="hero">
+
+            <div class="eyebrow">
+                BARBADOS SKIES • AI LEARNING
+            </div>
+
+            <h1>Discover the clouds above you.</h1>
+
+            <p>
+                Upload a sky photograph, identify its cloud type using
+                Google Teachable Machine, and learn more with
+                Microsoft Copilot.
+            </p>
+
+        </section>
+        <section class="sky-layout" aria-label="Cloud identification and learning">
+            <div class="prediction-grid">
+<article class="panel" id="identify">
+                    <h2>
+                        <span class="step">1</span>
+                        Identify a Cloud
+                    </h2>
+                    <p class="muted">
+                        Upload a photograph or take one with your camera.
+                    </p>
+                    <!-- Image Upload Area -->
+                    <label class="drop" id="drop">
+                        <input
+                            id="photo"
+                            type="file"
+                            accept="image/*"
+                            capture="environment"
+                        >
+                        <span id="dropText">
+                            📷 Choose a sky photograph or drop one here
+                        </span>
+                        <!-- Image Preview -->
+                        <img
+                            id="preview"
+                            alt="Your selected sky photograph"
+                            hidden
+                        >
+                    </label>
+                    <!-- Identification Buttons -->
+                    <div class="actions">
+                        <button id="predict" disabled>
+                            Identify Cloud
+                        </button>
+                        <button class="secondary" id="clear">
+                            Clear
+                        </button>
+                    </div>
+                    <!-- Model Status -->                 
+                    <p class="status" id="status" role="status">
+                     Loading SkyCast246 cloud identification model...
+                    </p>
+                </article>
+<article class="panel">
+                    <h2>
+                        <span class="step green">2</span>
+                        Prediction Result
+                    </h2>
+                    <div class="result">
+                        <!-- Cloud Name -->
+                        <div>
+                            <small>IDENTIFIED CLOUD</small>
+
+                            <h3 id="cloudName">
+                                Waiting for image
+                            </h3>
+
+                        </div>
+
+                        <!-- Confidence Percentage -->
+                        <div class="confidence">
+
+                            <small>CONFIDENCE</small>
+
+                            <strong id="confidence">—</strong>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Prediction Rankings -->
+                    <div id="rankings" class="rankings"></div>
+
+                    <p class="muted small">
+                        Model confidence is not a guarantee of accuracy.
+                        Images with multiple cloud types may be ambiguous.
+                    </p>
+
+                </article>
+            </div>
+            <div class="learning-grid">
+<article class="panel" id="learn">
+
+                    <h2>
+                        <span class="step purple">3</span>
+                        Learn About Your Cloud
+                    </h2>
+
+                    <!-- Learning Tabs -->
+                    <div class="tabs">
+
+                        <button class="tab active" data-tab="details">
+                            Cloud Details
+                        </button>
+
+                        <button class="tab" data-tab="questions">
+                            Questions
+                        </button>
+
+                        <button class="tab" data-tab="copilot">
+                            Ask Copilot
+                        </button>
+
+                    </div>
+
+
+                    <!-- ================= CLOUD DETAILS TAB ================= -->
+                    <div id="details" class="tabPanel">
+
+                        <h3 id="detailTitle">
+                            Cloud Learning Hub
+                        </h3>
+
+                        <p id="description">
+                            Identify a cloud to explore its characteristics,
+                            formation, and typical weather.
+                        </p>
+
+                        <!-- Cloud Facts -->
+                        <div class="factgrid">
+
+                            <div>
+
+                                <b>🌤️ Formation</b>
+
+                                <p id="formation">—</p>
+
+                            </div>
+
+                            <div>
+
+                                <b>🌦️ Weather</b>
+
+                                <p id="weather">—</p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= QUESTIONS TAB ================= -->
+                    <div id="questions" class="tabPanel" hidden>
+
+                        <h3>Questions to Explore</h3>
+
+                        <div id="suggested">
+                            Identify a cloud first.
+                        </div>
+                        <label for="customQuestion" class="field-label">Your own question</label>
+                        <textarea id="customQuestion" rows="3" maxlength="1000" placeholder="For example: Why do these clouds appear before heavy rain?"></textarea>
+                        <button id="askCustom" type="button">Ask SkyCast</button>
+                    </div>
+
+
+                    <!-- ================= COPILOT TAB ================= -->
+                    <div id="copilot" class="tabPanel" hidden>
+                        <h3>Ask the SkyCast Assistant</h3>
+                        <p>Review or edit the question below, then open the assistant. Use <strong>Copy Question</strong> and paste it into the chat to receive an answer.</p>
+                        <textarea id="prompt" rows="5" aria-label="Question for SkyCast Assistant"></textarea>
+                        <div class="actions">
+                            <a id="openWithQuestion" class="button" href="https://copilotstudio.microsoft.com/environments/Default-0d1b5d7f-f04f-4329-9401-57c347a50670/bots/cr9c8_SkyCast246Assistant/canvas?__version__=2&amp;enableFileAttachment=true&amp;tenantId=0d1b5d7f-f04f-4329-9401-57c347a50670" target="_blank" rel="noopener noreferrer" aria-label="Open SkyCast Assistant (opens in a new tab)">Open SkyCast Assistant ↗</a>
+                            <button id="copyPrompt" class="secondary" type="button">Copy Question</button>
+                        </div>
+                        <p class="muted small">Open SkyCast Assistant launches Copilot in a new tab. Use Copy Question above, then paste your question into Copilot.</p>
+                    </div>
+                </article>
+<article class="panel" id="quiz">
+
+                    <h2>
+                        <span class="step green">4</span>
+                        Quick Cloud Quiz
+                    </h2>
+
+                    <!-- Quiz Question -->
+                    <p id="quizQuestion">
+                        Which cloud type is commonly associated
+                        with thunderstorms?
+                    </p>
+
+                    <!-- Quiz Answers -->
+                    <div
+                        id="quizOptions"
+                        class="quizOptions"
+                    ></div>
+
+                    <!-- Quiz Feedback -->
+                    <p
+                        id="quizFeedback"
+                        role="status"
+                    ></p>
+
+                    <!-- Next Question Button -->
+                    <button class="secondary" id="nextQuiz">
+                        Next Question
+                    </button>
+
+                </article>
+            </div>
+        </section>
+    </main>
+<footer>
+                SkyCast246 • An educational cloud identification prototype •
+                Cloud descriptions are general information, not weather forecasts.
+        </footer>
+<!-- Floating Microsoft Copilot Studio assistant -->
+    <aside class="assistant-widget" id="chatbot" aria-label="SkyCast246 AI assistant">
+        <section class="assistant-window" id="assistantWindow" hidden aria-label="Assistant chat">
+            <div class="assistant-header">
+                <div><strong>☁ SkyCast Cloud Assistant</strong><small>Powered by Microsoft Copilot Studio</small></div>
+                <button id="closeChat" type="button" aria-label="Close assistant">✕</button>
+            </div>
+            <div class="assistant-help" id="assistantHelp" role="status" hidden></div>
+            <!-- remember Seth or whoever come here the link below is the copilot you can replace it with your own if you want-->
+            <iframe src="https://copilotstudio.microsoft.com/environments/Default-0d1b5d7f-f04f-4329-9401-57c347a50670/bots/cr9c8_SkyCast246Assistant/webchat?__version__=2&amp;enableFileAttachment=true" title="SkyCast246 Cloud Assistant" loading="lazy" allow="microphone"></iframe>
+        </section>
+        <button id="chatToggle" class="chat-toggle" type="button" aria-controls="assistantWindow" aria-expanded="false">☁ Ask SkyCast</button>
+    </aside>
+</body>
+</html>
+<!--This took to much time-->
